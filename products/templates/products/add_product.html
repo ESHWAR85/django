@@ -1,0 +1,36 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Add Product | ProductHub{% endblock %}
+
+{% block content %}
+<div class="form-page">
+    <a class="back-link" href="{% url 'product_list' %}">← Back to products</a>
+    <section class="form-card">
+        <div class="form-card-heading">
+            <div class="form-icon">＋</div>
+            <p class="eyebrow">INVENTORY</p>
+            <h1>Add a new product</h1>
+            <p class="subheading">Enter the product details below to add it to your inventory.</p>
+        </div>
+
+        <form method="POST" class="product-form">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="error-box">{{ form.non_field_errors }}</div>
+            {% endif %}
+            {% for field in form %}
+                <div class="field-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}<small class="help-text">{{ field.help_text }}</small>{% endif %}
+                    {% for error in field.errors %}<small class="field-error">{{ error }}</small>{% endfor %}
+                </div>
+            {% endfor %}
+            <div class="form-actions">
+                <a class="button button-secondary" href="{% url 'product_list' %}">Cancel</a>
+                <button class="button button-primary" type="submit">Save product <span>→</span></button>
+            </div>
+        </form>
+    </section>
+</div>
+{% endblock %}

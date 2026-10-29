@@ -1,0 +1,92 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Products | ProductHub{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">INVENTORY OVERVIEW</p>
+        <h1>Your products</h1>
+        <p class="subheading">Manage your stock, prices, and product details in one place.</p>
+    </div>
+    <a class="button button-primary" href="{% url 'add_product' %}">＋ Add new product</a>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card">
+        <div class="stat-icon purple">▦</div>
+        <div>
+            <p class="stat-label">Total products</p>
+            <p class="stat-value">{{ products|length }}</p>
+        </div>
+    </article>
+    <article class="stat-card">
+        <div class="stat-icon green">✓</div>
+        <div>
+            <p class="stat-label">Inventory status</p>
+            <p class="stat-value stat-small">Up to date</p>
+        </div>
+    </article>
+</section>
+
+<section class="panel">
+    <div class="panel-heading">
+        <div>
+            <h2>Product inventory</h2>
+            <p class="muted">A list of all products in your database.</p>
+        </div>
+        <span class="count-pill">{{ products|length }} item{{ products|length|pluralize }}</span>
+    </div>
+
+    {% if products %}
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>PRODUCT</th>
+                    <th>PRICE</th>
+                    <th>QUANTITY</th>
+                    <th>STATUS</th>
+                    <th class="align-right">ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>
+                        <div class="product-cell">
+                            <div class="product-avatar">{{ product.name|first|upper }}</div>
+                            <div>
+                                <div class="product-name">{{ product.name }}</div>
+                                <div class="product-id">Product #{{ product.id }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="price">₹{{ product.price }}</td>
+                    <td>{{ product.quantity }} units</td>
+                    <td>
+                        {% if product.quantity > 0 %}
+                            <span class="status status-in">● In stock</span>
+                        {% else %}
+                            <span class="status status-out">● Out of stock</span>
+                        {% endif %}
+                    </td>
+                    <td class="align-right actions">
+                        <a class="action-link edit-link" href="{% url 'edit_product' product.id %}">Edit</a>
+                        <a class="action-link delete-link" href="{% url 'delete_product' product.id %}">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon">▦</div>
+        <h3>No products yet</h3>
+        <p>Add your first product to start managing your inventory.</p>
+        <a class="button button-primary" href="{% url 'add_product' %}">＋ Add your first product</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

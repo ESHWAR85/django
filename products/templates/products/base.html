@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ProductHub{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'products/style.css' %}">
+</head>
+<body>
+    <header class="topbar">
+        <div class="nav-wrap">
+            <a class="brand" href="{% url 'product_list' %}">
+                <span class="brand-icon">P</span>
+                <span>Product<span class="brand-light">Hub</span></span>
+            </a>
+            <nav>
+                <a href="{% url 'product_list' %}">Dashboard</a>
+                <a class="nav-cta" href="{% url 'add_product' %}">＋ Add Product</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">ProductHub <span>·</span> Simple inventory management</footer>
+</body>
+</html>
